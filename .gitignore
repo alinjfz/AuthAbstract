@@ -24,3 +24,7 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
+
+# Internal planning docs
+authabstract-plan.md
+BUILD_SUMMARY.md
