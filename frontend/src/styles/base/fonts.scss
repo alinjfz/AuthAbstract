@@ -1,0 +1,69 @@
+@import "charter-webfont/charter.css";
+body {
+  font-family: "Charter", "Charter", sans-serif;
+}
+body {
+  margin: 0;
+  font-family: "Charter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: "Charter", source-code-pro, Menlo, Monaco, Consolas,
+    "Courier New", monospace;
+}
+@import url("https://fonts.cdnfonts.com/css/canela-text-trial");
+*,
+code,
+p,
+strong,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+ol,
+li,
+* > *,
+.btn {
+  font-family: "Charter", "Canela Text Trial", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif, source-code-pro, Menlo, Monaco,
+    Consolas, "Courier New", monospace !important;
+  font-family: "Charter", "Canela Trial", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif, source-code-pro, Menlo, Monaco,
+    Consolas, "Courier New", monospace !important;
+  font-family: "Charter", "Canela Condensed Trial", -apple-system,
+    BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif, source-code-pro,
+    Menlo, Monaco, Consolas, "Courier New", monospace !important;
+  font-family: "Charter", "Canela Deck Trial", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif, source-code-pro, Menlo, Monaco,
+    Consolas, "Courier New", monospace !important;
+}
+p,
+li {
+  font-weight: 300;
+  line-height: 1.6;
+}
+h2 {
+  font-size: 1.9rem;
+}
+// @font-family-sans-serif: "Helvetica Neue", Helvetica, Arial, sans-serif;
+// @font-family-serif: Georgia, "Times New Roman", Times, serif;
+// //** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
+// @font-family-monospace: Menlo, Monaco, Consolas, "Courier New", monospace;
+// @font-family-base: @font-family-sans-serif;
+
+.card-title.h5 {
+  // font-size: ;
+  font-size: 1.2rem;
+  line-height: 1.4;
+}

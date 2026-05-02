@@ -1,0 +1,52 @@
+.custom-post-button {
+  h5,
+  p,
+  a {
+    text-decoration: none;
+  }
+  h5 {
+    font-size: 1.5rem;
+    color: $primary;
+    text-decoration: none;
+  }
+  p {
+    text-decoration: none;
+    color: $primary-light;
+  }
+  &:hover {
+    background-color: lighten($primary-light, 40);
+  }
+  height: 100%;
+  > a {
+    height: 100%;
+    display: grid;
+    grid-template:
+      "pic title"
+      "pic link";
+    img.postb-img {
+      grid-area: pic;
+      // min-height: 6rem;
+      max-height: 9rem;
+    }
+    h5 {
+      grid-area: title;
+      margin-left: 1rem;
+    }
+    .cpb-link {
+      grid-area: link;
+      img {
+        margin-left: 0.5rem;
+      }
+      p {
+        margin: 0px;
+        margin-left: 1rem;
+      }
+    }
+    @include media-breakpoint-down(md) {
+      grid-template:
+        "pic"
+        "title"
+        "link";
+    }
+  }
+}

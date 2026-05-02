@@ -1,0 +1,11 @@
+.main-carousel {
+  .carousel-inner {
+    border-radius: 10px;
+  }
+  .carousel-caption {
+    -webkit-backdrop-filter: blur(9px);
+    backdrop-filter: blur(9px);
+    background: hsla(0, 0%, 100%, 0.3);
+    border-radius: 15px;
+  }
+}

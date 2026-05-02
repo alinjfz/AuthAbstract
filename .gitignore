@@ -1,0 +1,26 @@
+# Environment
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+*.sqlite
+*.db
+
+# Node
+node_modules/
+frontend/build/
+
+# Alembic (keep versions, ignore only caches)
+backend/alembic/__pycache__/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

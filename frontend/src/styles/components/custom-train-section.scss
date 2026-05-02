@@ -1,0 +1,9 @@
+h4.customize-train-h4 {
+  span {
+    padding: 5px 13px;
+    &:hover {
+      cursor: pointer;
+      background-color: $dark !important;
+    }
+  }
+}

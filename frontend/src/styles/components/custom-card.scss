@@ -1,0 +1,23 @@
+.card.custom-card {
+  a {
+    text-decoration: none;
+    color: black;
+    p.learn-more {
+      color: $primary;
+      text-decoration: underline;
+      font-size: 1rem;
+    }
+  }
+}
+.card.custom-card.with-onclick {
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    place-content: space-between;
+  }
+  a {
+    p.learn-more {
+      margin-bottom: 0px;
+    }
+  }
+}

@@ -1,0 +1,38 @@
+.custom-choose-algo-btn {
+  //   display: grid;
+  //   grid-template-columns: auto auto auto;
+  //   grid-gap: 20px;
+  .calgo-btn-img {
+    max-height: 9rem;
+    max-width: 100%;
+    width: fit-content;
+  }
+  .btn-primary {
+    width: 100%;
+    background-color: $primary-light;
+  }
+  // a {
+  //   max-height: 100px;
+  // }
+  p {
+    text-align: justify;
+  }
+  .learn-more {
+    margin: 0;
+    margin-right: 10px;
+  }
+  .ccab-div {
+    height: calc(100% - 2rem);
+    place-content: space-between;
+    &:hover {
+      background-color: lighten($primary-light, 40);
+    }
+  }
+  .ccab-subdiv {
+    width: 100%;
+  }
+}
+.why-algo .learn-more {
+  margin: 0;
+  margin-right: 10px;
+}

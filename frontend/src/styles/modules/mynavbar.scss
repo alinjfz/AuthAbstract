@@ -1,0 +1,36 @@
+.my-navbar {
+  &::before {
+    content: " ";
+    background-color: $primary !important;
+    content: " ";
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+  }
+  background: none !important;
+  .nav-link,
+  a {
+    color: $white;
+  }
+  .site-name {
+    font-weight: 800;
+  }
+  .navbar-nav .nav-link.active,
+  .navbar-nav .nav-link.show {
+    font-weight: 700;
+    color: $white;
+  }
+  .navbar-toggler {
+    border: none;
+    .navbar-toggler-icon {
+      background-image: url("../../../public/icons/menu.svg");
+      background-repeat: no-repeat;
+    }
+  }
+  .dropdown-menu {
+    background-color: $primary !important;
+  }
+}

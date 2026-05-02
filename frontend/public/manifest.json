@@ -1,0 +1,211 @@
+{
+  "short_name": "AuthAbstract",
+  "name": "AuthAbstract — Auth Starter",
+  "description": "Clean, reusable JWT auth starter with React + Flask",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "orientation": "portrait",
+  "id": "/",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "800x800"
+    },
+    {
+      "src": "favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/favicon128.ico",
+      "sizes": "128x128",
+      "type": "image/x-icon",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/favicon64.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/favicon48.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/favicon32.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/favicon16.ico",
+      "sizes": "16x16",
+      "type": "image/x-icon",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/logo16.png",
+      "sizes": "16x16",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/logo32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/logo192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "/logo/logo284.png",
+      "type": "image/png",
+      "purpose": "any",
+      "sizes": "284x284"
+    },
+    {
+      "src": "/logo/logo36.png",
+      "sizes": "36x36",
+      "type": "image/png",
+      "purpose": "any",
+      "density": "0.75"
+    },
+    {
+      "src": "/logo/logo48.png",
+      "sizes": "48x48",
+      "type": "image/png",
+      "purpose": "any",
+      "density": "1.0"
+    },
+    {
+      "src": "/logo/logo72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any",
+      "density": "1.5"
+    },
+    {
+      "src": "/logo/logo96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any",
+      "density": "2.0"
+    },
+    {
+      "src": "/logo/logo144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any",
+      "density": "3.0"
+    },
+    {
+      "src": "/logo/logo192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any",
+      "density": "4.0"
+    },
+    {
+      "src": "/logo/logo57.png",
+      "sizes": "57x57",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/logo60.png",
+      "sizes": "60x60",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/logo72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/logo76.png",
+      "sizes": "76x76",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/logo114.png",
+      "sizes": "114x114",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/logo120.png",
+      "sizes": "120x120",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/logo144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/logo152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/logo180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/logo70.png",
+      "sizes": "70x70",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/logo150.png",
+      "sizes": "150x150",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo/logo310.png",
+      "sizes": "310x310",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/splash_screens/10.5__iPad_Air_portrait.png",
+      "type": "image/png",
+      "sizes": "1668x2224",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/splash_screens/10.5__iPad_Air_landscape.png",
+      "type": "image/jpg",
+      "sizes": "2224x1668",
+      "form_factor": "wide"
+    }
+  ]
+}
