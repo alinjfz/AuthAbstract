@@ -1,0 +1,306 @@
+// ── Auth Form Wrapper ─────────────────────────────────────────────────────────
+.auth-form-wrapper {
+  width: 100%;
+
+  &.error {
+    animation: shake 0.4s ease;
+  }
+}
+
+.auth-form-title {
+  font-family: 'Charter', 'Canela', Georgia, 'Times New Roman', serif;
+  font-size: 1.5rem;
+  color: #1a1a2e;
+  font-weight: 400;
+  margin: 0 0 28px;
+  line-height: 1.2;
+}
+
+// ── Floating-Label Input Field ────────────────────────────────────────────────
+.auth-field {
+  position: relative;
+  margin-bottom: 20px;
+
+  input {
+    width: 100%;
+    padding: 22px 16px 8px;
+    border: 1.5px solid #dde1e7;
+    border-radius: $radius-input;
+    font-size: 0.95rem;
+    background: #fafbfc;
+    transition: border-color $transition-base, box-shadow $transition-base, background $transition-base;
+    outline: none;
+    color: #1a1a2e;
+    appearance: none;
+
+    &:focus {
+      border-color: #22528e;
+      box-shadow: 0 0 0 3px rgba(34, 82, 142, 0.1);
+      background: #fff;
+    }
+
+    // Float label when focused or filled
+    &:focus ~ label,
+    &:not(:placeholder-shown) ~ label {
+      top: 8px;
+      font-size: 0.7rem;
+      color: #22528e;
+      transform: translateY(0);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  label {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.9rem;
+    color: #6c757d;
+    pointer-events: none;
+    transition:
+      top $transition-base,
+      font-size $transition-base,
+      color $transition-base,
+      transform $transition-base;
+    line-height: 1;
+  }
+
+  .field-error {
+    display: block;
+    font-size: 0.75rem;
+    color: #dc3545;
+    margin-top: 5px;
+    padding-left: 2px;
+  }
+
+  // Error state
+  &--error {
+    input {
+      border-color: #dc3545;
+      &:focus { box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1); }
+      &:focus ~ label,
+      &:not(:placeholder-shown) ~ label { color: #dc3545; }
+    }
+  }
+
+  // Valid state
+  &--valid {
+    input {
+      border-color: #198754;
+      &:focus { box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.1); }
+      &:focus ~ label,
+      &:not(:placeholder-shown) ~ label { color: #198754; }
+    }
+  }
+}
+
+// ── Password field with toggle ────────────────────────────────────────────────
+.auth-field-password {
+  input { padding-right: 44px; }
+
+  .pw-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    color: #9aa3b0;
+    display: flex;
+    align-items: center;
+    transition: color $transition-fast;
+    line-height: 0;
+
+    &:hover { color: #22528e; }
+    &:focus { outline: none; }
+  }
+}
+
+// ── Password Strength Meter ───────────────────────────────────────────────────
+.pw-strength {
+  height: 3px;
+  background: #e9ecef;
+  border-radius: 4px;
+  margin-top: -12px;
+  margin-bottom: 16px;
+  overflow: hidden;
+
+  &__bar {
+    height: 100%;
+    border-radius: 4px;
+    width: 0;
+    transition: width 0.3s ease, background-color 0.3s ease;
+
+    &.weak   { width: 33%; background: #dc3545; }
+    &.medium { width: 66%; background: #fd7e14; }
+    &.strong { width: 100%; background: #198754; }
+  }
+}
+
+// ── Primary CTA Button ────────────────────────────────────────────────────────
+.auth-btn {
+  display: block;
+  width: 100%;
+  padding: 13px 24px;
+  background: #22528e;
+  color: #fff;
+  border: none;
+  border-radius: $radius-input;
+  font-family: 'Charter', 'Canela', Georgia, serif;
+  font-size: 0.88rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform $transition-fast, box-shadow $transition-fast, background-color $transition-fast;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(34, 82, 142, 0.35);
+    background: #1d4577;
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+}
+
+// ── Button Loading Spinner ────────────────────────────────────────────────────
+.btn-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+// ── Alert Messages ────────────────────────────────────────────────────────────
+.auth-alert {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: $radius-input;
+  font-size: 0.83rem;
+  margin-bottom: 16px;
+  animation: slideDown 0.25s ease;
+  line-height: 1.4;
+
+  &-error {
+    background: #fff5f5;
+    border: 1px solid #ffc9c9;
+    color: #c92a2a;
+  }
+
+  &-success {
+    background: #f0fff4;
+    border: 1px solid #b2f2bb;
+    color: #2f9e44;
+  }
+
+  .auth-alert-close {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: inherit;
+    opacity: 0.55;
+    font-size: 1.1rem;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: -1px;
+    &:hover { opacity: 1; }
+  }
+}
+
+// ── Nav links below form ──────────────────────────────────────────────────────
+.auth-links {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+
+  a {
+    font-size: 0.78rem;
+    color: #22528e;
+    text-decoration: none;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: #1d4577;
+      text-decoration: underline;
+    }
+  }
+}
+
+// ── Registration Success State ────────────────────────────────────────────────
+.auth-success-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 24px 0 16px;
+
+  .auth-checkmark {
+    width: 62px;
+    height: 62px;
+    margin-bottom: 20px;
+
+    circle {
+      fill: none;
+      stroke: #22528e;
+      stroke-width: 2;
+      stroke-dasharray: 151;
+      stroke-dashoffset: 151;
+      animation: strokeDraw 0.6s ease forwards;
+    }
+
+    path {
+      fill: none;
+      stroke: #22528e;
+      stroke-width: 2.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 48;
+      stroke-dashoffset: 48;
+      animation: strokeDraw 0.4s 0.55s ease forwards;
+    }
+  }
+
+  .success-heading {
+    font-family: 'Charter', 'Canela', Georgia, serif;
+    font-size: 1.2rem;
+    color: #1a1a2e;
+    font-weight: 400;
+    margin: 0 0 6px;
+  }
+
+  .success-sub {
+    font-size: 0.82rem;
+    color: #6c757d;
+    margin: 0;
+  }
+}

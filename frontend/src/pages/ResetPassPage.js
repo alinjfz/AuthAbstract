@@ -1,7 +1,4 @@
 import React from "react";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import { Card } from "react-bootstrap";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as AuthActions from "../actions/auth";
@@ -9,25 +6,28 @@ import { Navigate } from "react-router-dom";
 import { DASHBOARD_URL } from "../constants/routes";
 import SendResetPassForm from "../components/SendResetPassForm";
 
-function ResetPassPage({ authState }) {
-  const { loggedin } = authState.loggedin;
+function ResetPassPage({ loggedin }) {
   if (loggedin) return <Navigate to={DASHBOARD_URL} replace={true} />;
 
   return (
-    <Row>
-      <Col className="col-lg-8 col-xl-7 mx-auto">
-        <Card className="card flex-row border-0 shadow rounded-3 overflow-hidden">
-          <Card.Body className="p-4 p-sm-5">
-            <SendResetPassForm />
-          </Card.Body>
-        </Card>
-      </Col>
-    </Row>
+    <div className="auth-page">
+      <div className="auth-split">
+        <div className="auth-panel-left">
+          <h1 className="auth-panel-heading">Reset your password.</h1>
+          <p className="auth-panel-sub">
+            Enter your email and we'll send you a link to get back into your account.
+          </p>
+        </div>
+        <div className="auth-panel-right">
+          <SendResetPassForm />
+        </div>
+      </div>
+    </div>
   );
 }
 
 const mapStateToProps = (state) => ({
-  authState: state.auth,
+  loggedin: state.auth.loggedin,
 });
 const mapDispatchToProps = (dispatch) => {
   return {

@@ -27,7 +27,7 @@ services:
       DATABASE_URL: postgresql+psycopg2://${POSTGRES_USER:-authuser}:${DB_PASSWORD}@db:5432/${POSTGRES_DB:-authdb}
       FRONTEND_URL: ${FRONTEND_URL:-https://localhost}
     command: >
-      sh -c "alembic upgrade head && gunicorn app:app --bind 0.0.0.0:8000 --workers 2"
+      sh -c "alembic upgrade head && gunicorn wsgi:app --bind 0.0.0.0:8000 --workers 2"
     networks:
       - internal
     depends_on:
@@ -52,6 +52,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    volumes:
+      - ./nginx/ssl:/etc/nginx/ssl:ro
     networks:
       - internal
     depends_on:

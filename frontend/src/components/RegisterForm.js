@@ -1,260 +1,296 @@
-import React, { useState } from "react";
-import { Alert, Button, Col, Form, Row } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
 import validateEmail from "../utils/validateEmail";
 import * as AuthApi from "../api/auth";
 import { bindActionCreators } from "redux";
 import * as AuthActions from "../actions/auth";
 import { connect } from "react-redux";
-import { Spinner } from "react-bootstrap";
 import { LOGIN_URL, RESET_PASS_URL } from "../constants/routes";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import isPasswordStrong from "../utils/isPasswordStrong";
 import translateErrors from "../utils/translateErrors";
 
-function RegisterForm({
-  loading,
-  onRegister,
-  authActions,
-  authError,
-  authMessage,
-}) {
+function RegisterForm({ authloading: loading, onRegister, authActions, authError, authMessage }) {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     name: "",
     password: "",
     confirm_password: "",
   });
-
   const [formErrors, setFormErrors] = useState({});
+  const [touched, setTouched] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [registered, setRegistered] = useState(false);
+  const [shake, setShake] = useState(false);
+
   const clear_auth_error = () => {
     if (authActions && typeof authActions.auth_clear_error === "function") {
       authActions.auth_clear_error();
     }
   };
+
+  useEffect(() => {
+    if (authMessage) {
+      setRegistered(true);
+      const t = setTimeout(() => navigate(LOGIN_URL), 2000);
+      return () => clearTimeout(t);
+    }
+    // eslint-disable-next-line
+  }, [authMessage]);
+
+  const validateField = (field, value, data) => {
+    const d = data || formData;
+    if (field === "email") {
+      if (!value) return "Email is required";
+      if (!validateEmail(value)) return "Email is invalid";
+    }
+    if (field === "name") {
+      if (!value) return "Name is required";
+    }
+    if (field === "password") {
+      if (!value) return "Password is required";
+    }
+    if (field === "confirm_password") {
+      if (!value) return "Please confirm your password";
+      if (value !== d.password) return "Passwords do not match";
+    }
+    return undefined;
+  };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    setTouched((prev) => ({ ...prev, [name]: true }));
+    setFormErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-  const register = async function register_func() {
-    if (typeof onRegister === "function") {
-      const x = {
-        email: formData.email,
-        name: formData.name,
-        password: formData.password,
-      };
-      // if (!this.disableCaptcha) x.captcha = this.state.captcha;
-      // setloading({ loading: true });
-      await onRegister(x);
-      // setloading({ loading: false });
+    const newData = { ...formData, [name]: value };
+    setFormData(newData);
+    if (touched[name]) {
+      setFormErrors((prev) => ({
+        ...prev,
+        [name]: validateField(name, value, newData),
+      }));
+    }
+    // Re-validate confirm_password when password changes
+    if (name === "password" && touched.confirm_password) {
+      setFormErrors((prev) => ({
+        ...prev,
+        confirm_password: validateField("confirm_password", newData.confirm_password, newData),
+      }));
     }
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const errors = {};
-    if (!formData.email) {
-      errors.email = "Email is required";
-    } else if (!validateEmail(formData.email)) {
-      errors.email = "Email is incorrect";
-    }
-    if (!formData.name) {
-      errors.name = "Please Enter a name";
-    }
-    if (!formData.password) {
-      errors.password = "Password is required";
-    }
-    const strongPass = isPasswordStrong(formData.password);
-    if (!strongPass.status) {
-      errors.password = strongPass.message;
-    }
-    if (!formData.confirm_password) {
-      errors.confirm_password = "Confirm Password is required";
-    }
-    if (formData.confirm_password !== formData.password) {
-      // errors.password = "Password and Confirm Password must be the same";
-      errors.confirm_password =
-        "Password and Confirm Password must be the same";
-    }
+    setTouched({ email: true, name: true, password: true, confirm_password: true });
+    const errors = {
+      email: validateField("email", formData.email),
+      name: validateField("name", formData.name),
+      password: validateField("password", formData.password),
+      confirm_password: validateField("confirm_password", formData.confirm_password),
+    };
     setFormErrors(errors);
-
-    if (Object.keys(errors).length === 0) {
-      // Form is valid, you can submit it or perform further actions
-      register();
+    if (Object.values(errors).some(Boolean)) {
+      setShake(true);
+      setTimeout(() => setShake(false), 400);
+      return;
     }
+    onRegister({ email: formData.email, name: formData.name, password: formData.password });
   };
-  if (authMessage === "Registration successful" && formData.email) {
-    setFormData({
-      email: "",
-      name: "",
-      password: "",
-      confirm_password: "",
-    });
+
+  const pwStrength = formData.password ? isPasswordStrong(formData.password) : null;
+  const strengthClass = pwStrength
+    ? pwStrength.sec === "strong"
+      ? "strong"
+      : pwStrength.sec === "medium"
+      ? "medium"
+      : "weak"
+    : "";
+
+  if (registered) {
+    return (
+      <div className="auth-success-state">
+        <svg className="auth-checkmark" viewBox="0 0 52 52">
+          <circle cx="26" cy="26" r="24" />
+          <path d="M14 27l7 7 17-17" />
+        </svg>
+        <p className="success-heading">Registration successful!</p>
+        <p className="success-sub">Redirecting to sign in…</p>
+      </div>
+    );
   }
+
   return (
-    <>
-      <h4 className="card-title text-center mb-5 fw-light fs-5">Register</h4>
-      <Form>
-        <div className="form-floating mb-3">
+    <div className={`auth-form-wrapper${shake ? " error" : ""}`}>
+      <h2 className="auth-form-title">Create account.</h2>
+
+      {authError && (
+        <div className="auth-alert auth-alert-error">
+          <span>{translateErrors(authError)}</span>
+          <button className="auth-alert-close" onClick={clear_auth_error} type="button">
+            ×
+          </button>
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} noValidate>
+        {/* Email */}
+        <div
+          className={`auth-field${formErrors.email ? " auth-field--error" : touched.email && !formErrors.email ? " auth-field--valid" : ""}`}
+        >
           <input
             type="email"
-            className={`form-control ${formErrors.email ? "is-invalid" : ""}`}
-            id="floatingInput"
-            disabled={loading}
+            id="reg-email"
             name="email"
-            placeholder="name@example.com"
-            onChange={handleChange}
             value={formData.email}
+            placeholder=" "
+            onChange={handleChange}
+            onBlur={handleBlur}
+            disabled={loading}
           />
+          <label htmlFor="reg-email">Email address</label>
           {formErrors.email && (
-            <div className="invalid-feedback">{formErrors.email}</div>
+            <span className="field-error">{formErrors.email}</span>
           )}
-          <label htmlFor="floatingInput">Email address</label>
         </div>
-        <div className="form-floating mb-3">
+
+        {/* Name */}
+        <div
+          className={`auth-field${formErrors.name ? " auth-field--error" : touched.name && !formErrors.name ? " auth-field--valid" : ""}`}
+        >
           <input
             type="text"
-            className={`form-control ${formErrors.name ? "is-invalid" : ""}`}
-            id="floatingInputName"
-            disabled={loading}
+            id="reg-name"
             name="name"
-            placeholder="name@example.com"
-            onChange={handleChange}
             value={formData.name}
+            placeholder=" "
+            onChange={handleChange}
+            onBlur={handleBlur}
+            disabled={loading}
           />
+          <label htmlFor="reg-name">Full name</label>
           {formErrors.name && (
-            <div className="invalid-feedback">{formErrors.name}</div>
+            <span className="field-error">{formErrors.name}</span>
           )}
-          <label htmlFor="floatingInputName">Name</label>
         </div>
-        <div className="form-floating mb-3">
+
+        {/* Password */}
+        <div
+          className={`auth-field auth-field-password${formErrors.password ? " auth-field--error" : touched.password && !formErrors.password ? " auth-field--valid" : ""}`}
+        >
           <input
-            type="password"
-            className={`form-control ${
-              formErrors.password ? "is-invalid" : ""
-            }`}
-            id="floatingPassword"
+            type={showPassword ? "text" : "password"}
+            id="reg-password"
             name="password"
-            disabled={loading}
-            placeholder="Password"
-            onChange={handleChange}
             value={formData.password}
-          />
-          {formErrors.password && (
-            <div className="invalid-feedback">{formErrors.password}</div>
-          )}
-          <label htmlFor="floatingPassword">Password</label>
-        </div>
-        <div className="form-floating mb-3">
-          <input
-            type="password"
-            className={`form-control ${
-              formErrors.confirm_password ? "is-invalid" : ""
-            }`}
-            id="floatingConfirmPassword"
-            name="confirm_password"
-            disabled={loading}
-            placeholder="Confirm Password"
+            placeholder=" "
             onChange={handleChange}
-            value={formData.confirm_password}
-          />
-          {formErrors.confirm_password && (
-            <div className="invalid-feedback">
-              {formErrors.confirm_password}
-            </div>
-          )}
-          <label htmlFor="floatingPassword">Confirm Password</label>
-        </div>
-        <div className="d-grid mb-2">
-          <Button
-            className="btn-login fw-bold"
-            type="submit"
-            variant="primary"
-            onClick={handleSubmit}
+            onBlur={handleBlur}
             disabled={loading}
+          />
+          <label htmlFor="reg-password">Password</label>
+          <button
+            type="button"
+            className="pw-toggle"
+            onClick={() => setShowPassword((v) => !v)}
+            tabIndex={-1}
+            aria-label={showPassword ? "Hide password" : "Show password"}
           >
-            {loading ? (
-              <Spinner animation="border" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </Spinner>
-            ) : (
-              "Register"
-            )}
-          </Button>
-        </div>
-        {authError ? (
-          <Alert
-            className="mt-2"
-            variant="danger"
-            onClose={clear_auth_error}
-            dismissible
-          >
-            {translateErrors(authError)}
-          </Alert>
-        ) : null}
-        {authMessage ? (
-          <>
-            <Alert
-              className="mt-2"
-              variant="success"
-              onClose={clear_auth_error}
-              dismissible
-            >
-              {authMessage}
-              <Link className="alert-link" to={LOGIN_URL}>
-                <Button
-                  variant="link"
-                  className="pt-0 pb-0"
-                  onClick={clear_auth_error}
-                >
-                  Go to Login Page.
-                </Button>
-              </Link>
-            </Alert>
-          </>
-        ) : null}
-        <Row>
-          <Col>
-            <Link to={LOGIN_URL}>
-              <Button
-                variant="link"
-                className="d-block text-center mt-2"
-                size="sm"
-              >
-                Have an account? Sign In
-              </Button>
-            </Link>
-          </Col>
-          <Col>
-            <Link to={RESET_PASS_URL} className="float-right">
-              <Button variant="link" className="d-block mt-2" size="sm">
-                Forgot password? Reset Password
-              </Button>
-            </Link>
-          </Col>
-        </Row>
-        {/* <hr className="my-4" />
-
-        <div className="d-grid mb-2">
-          <Button
-            className="btn btn-lg btn-google btn-login fw-bold"
-            type="submit"
-          >
-            <i className="fab fa-google me-2"></i> Sign up with Google
-          </Button>
+            {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+          </button>
+          {formErrors.password && (
+            <span className="field-error">{formErrors.password}</span>
+          )}
         </div>
 
-        <div className="d-grid">
-          <Button
-            className="btn btn-lg btn-facebook btn-login fw-bold"
-            type="submit"
+        {/* Password strength bar */}
+        {formData.password && (
+          <div className="pw-strength">
+            <div className={`pw-strength__bar ${strengthClass}`} />
+          </div>
+        )}
+
+        {/* Confirm Password */}
+        <div
+          className={`auth-field auth-field-password${formErrors.confirm_password ? " auth-field--error" : touched.confirm_password && !formErrors.confirm_password ? " auth-field--valid" : ""}`}
+        >
+          <input
+            type={showConfirm ? "text" : "password"}
+            id="reg-confirm"
+            name="confirm_password"
+            value={formData.confirm_password}
+            placeholder=" "
+            onChange={handleChange}
+            onBlur={handleBlur}
+            disabled={loading}
+          />
+          <label htmlFor="reg-confirm">Confirm password</label>
+          <button
+            type="button"
+            className="pw-toggle"
+            onClick={() => setShowConfirm((v) => !v)}
+            tabIndex={-1}
+            aria-label={showConfirm ? "Hide password" : "Show password"}
           >
-            <i className="fab fa-facebook-f me-2"></i> Sign up with Facebook
-          </Button>
-        </div> */}
-      </Form>
-    </>
+            {showConfirm ? <EyeOffIcon /> : <EyeIcon />}
+          </button>
+          {formErrors.confirm_password && (
+            <span className="field-error">{formErrors.confirm_password}</span>
+          )}
+        </div>
+
+        <button type="submit" className="auth-btn" disabled={loading}>
+          {loading ? <span className="btn-spinner" /> : "Create account"}
+        </button>
+      </form>
+
+      <div className="auth-links">
+        <Link to={LOGIN_URL}>Already have an account? Sign in</Link>
+        <Link to={RESET_PASS_URL}>Forgot password?</Link>
+      </div>
+    </div>
+  );
+}
+
+function EyeIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="17"
+      height="17"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  );
+}
+
+function EyeOffIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="17"
+      height="17"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+      <line x1="1" y1="1" x2="23" y2="23" />
+    </svg>
   );
 }
 
@@ -266,10 +302,9 @@ const mapStateToProps = (state) => ({
   authError: state.auth.error,
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onRegister: (data) => AuthApi.api_register(data)(dispatch, {}),
-    authActions: bindActionCreators(AuthActions, dispatch),
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  onRegister: (data) => AuthApi.api_register(data)(dispatch, {}),
+  authActions: bindActionCreators(AuthActions, dispatch),
+});
+
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm);

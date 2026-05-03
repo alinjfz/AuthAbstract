@@ -1,0 +1,105 @@
+// ── Auth Page — Two-Column Split Layout ───────────────────────────────────────
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0;
+}
+
+.auth-split {
+  display: flex;
+  width: 100%;
+  max-width: 900px;
+  min-height: 540px;
+  border-radius: $radius-card;
+  box-shadow: $shadow-md;
+  overflow: hidden;
+}
+
+// ── Left decorative panel ─────────────────────────────────────────────────────
+.auth-panel-left {
+  flex: 0 0 58%;
+  background: linear-gradient(145deg, #22528e 0%, #1a3f6f 55%, #0f2645 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px 52px;
+  position: relative;
+  overflow: hidden;
+
+  // Geometric accent shapes
+  &::before {
+    content: '';
+    position: absolute;
+    top: -70px;
+    right: -50px;
+    width: 280px;
+    height: 280px;
+    background: rgba(255, 255, 255, 0.04);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    left: -40px;
+    width: 220px;
+    height: 220px;
+    background: rgba(255, 255, 255, 0.03);
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+  }
+
+  .auth-panel-heading {
+    font-family: 'Charter', 'Canela', Georgia, 'Times New Roman', serif;
+    font-size: clamp(1.9rem, 3vw, 2.8rem);
+    color: #fff;
+    font-weight: 400;
+    line-height: 1.15;
+    margin: 0 0 18px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .auth-panel-sub {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.65;
+    position: relative;
+    z-index: 1;
+    max-width: 280px;
+  }
+}
+
+// ── Right form panel ──────────────────────────────────────────────────────────
+.auth-panel-right {
+  flex: 0 0 42%;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 52px 44px;
+}
+
+// ── Mobile: single column ─────────────────────────────────────────────────────
+@media (max-width: 767px) {
+  .auth-split {
+    flex-direction: column;
+    max-width: $auth-form-max-width;
+    min-height: auto;
+    border-radius: $radius-card;
+  }
+
+  .auth-panel-left {
+    display: none;
+  }
+
+  .auth-panel-right {
+    flex: 1;
+    padding: 40px 24px;
+  }
+
+  .auth-page {
+    align-items: flex-start;
+  }
+}

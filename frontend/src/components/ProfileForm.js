@@ -7,15 +7,12 @@ import {
   Alert,
   Button,
   Card,
-  Col,
-  OverlayTrigger,
   Placeholder,
-  Row,
-  Tooltip,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { CHANGE_PASS_URL } from "../constants/routes";
 import translateErrors from "../utils/translateErrors";
+
 function ProfileForm({
   onGetProfile,
   authError,
@@ -25,166 +22,153 @@ function ProfileForm({
   loading,
   onSendVerificaton,
 }) {
+  const [verifyClicked, setVerifyClicked] = useState(false);
+
   const clear_auth_error = () => {
     if (authActions && typeof authActions.auth_clear_error === "function") {
       authActions.auth_clear_error();
     }
   };
-  const [called, setCalled] = useState(false);
+
   useEffect(() => {
-    if (!user.name) get_profile();
-    else if (!called) {
-      setCalled(true);
-      get_profile();
-    }
-    if (authError || authMessage) {
-      clear_auth_error();
-    }
+    // Clear any stale messages from previous pages before fetching profile
+    clear_auth_error();
+    get_profile();
     // eslint-disable-next-line
   }, []);
-  const get_profile = async function profileFunc() {
+
+  const get_profile = async () => {
     if (typeof onGetProfile === "function") {
       await onGetProfile();
+      // Silently clear the "Success" message set by profile fetch —
+      // the user sees their data, no alert needed.
+      clear_auth_error();
     }
   };
-  const send_verify = async function sendVerificationFunc() {
+
+  const send_verify = async () => {
     if (typeof onSendVerificaton === "function") {
+      setVerifyClicked(true);
       await onSendVerificaton();
     }
   };
 
   let { name, email } = user;
-
   if (authError) {
     name = email = "";
   }
+
   return (
     <>
-      <form>
-        <div className="form-floating">
-          <Row>
-            <Col className="col-lg-4 d-flex flex-column align-items-center">
-              <img
-                className="mt-5"
-                width="150px"
-                height="100px"
-                alt="Profile"
-                src="/icons/profile.svg"
-              />
-              {user.email && !user.is_verified ? (
-                <Button
-                  className="profile-button w-100"
-                  disabled={loading}
-                  variant="primary"
-                  onClick={send_verify}
-                >
-                  Verify your Email
-                </Button>
-              ) : null}
-            </Col>
-            <Col>
-              <div className="p-3">
-                <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h4 className="text-right">Profile Settings</h4>
-                </div>
-                <div className="form-floating mb-3">
-                  {loading ? (
-                    <Placeholder size="lg" as={Card.Text} animation="glow">
-                      <label htmlFor="floatingInput">Name</label>
-                      <br />
-                      <Placeholder xs={8} />
-                    </Placeholder>
-                  ) : (
-                    <>
-                      <input
-                        type="text"
-                        className={`form-control`}
-                        id="floatingInput"
-                        disabled={true}
-                        value={name}
-                        name="name"
-                      />
-                      <label htmlFor="floatingInput">Name</label>
-                    </>
-                  )}
-                </div>
-                <div className="form-floating mb-3">
-                  {loading ? (
-                    <Placeholder size="lg" as={Card.Text} animation="glow">
-                      <label htmlFor="floatingInput">Email address</label>
-                      <br />
-                      <Placeholder xs={8} />
-                    </Placeholder>
-                  ) : (
-                    <>
-                      <OverlayTrigger
-                        placement="top"
-                        delay={{ show: 250, hide: 400 }}
-                        overlay={
-                          <Tooltip id="button-tooltip">
-                            Cannot be modified
-                          </Tooltip>
-                        }
-                      >
-                        <input
-                          type="email"
-                          className={`form-control`}
-                          id="floatingInput"
-                          disabled={true}
-                          value={email}
-                          name="email"
-                        />
-                      </OverlayTrigger>
-                      <label htmlFor="floatingInput">Email address</label>
-                    </>
-                  )}
-                </div>
-                {authError ? (
-                  <>
-                    <Alert className="mt-2" variant="danger">
-                      {translateErrors(authError)}
-                    </Alert>
-                    <Button
-                      className="profile-button"
-                      onClick={get_profile}
-                      variant="primary"
-                    >
-                      Try Again
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <Button
-                      className="profile-button"
-                      disabled
-                      variant="primary"
-                    >
-                      Save Profile
-                    </Button>
-                  </>
-                )}
-                <Link to={CHANGE_PASS_URL} className="float-right">
-                  <Button variant="link" className="d-block mt-2" size="sm">
-                    Change Password
-                  </Button>
-                </Link>
-                {authMessage && authMessage !== "Success" ? (
-                  <>
-                    <Alert
-                      className="mt-2"
-                      variant="success"
-                      onClose={clear_auth_error}
-                      dismissible
-                    >
-                      {authMessage}
-                    </Alert>
-                  </>
-                ) : null}
-              </div>
-            </Col>
-          </Row>
+      <h5 className="fw-semibold mb-4 text-center">Profile Settings</h5>
+
+      {/* Avatar */}
+      <div className="text-center mb-4">
+        <img
+          width="80"
+          height="80"
+          alt="Profile"
+          src="/icons/profile.svg"
+          className="rounded-circle border"
+          style={{ objectFit: "cover" }}
+        />
+        <div className="mt-2 fw-semibold">
+          {loading ? <span className="text-muted small">Loading...</span> : (name || "")}
         </div>
-      </form>
+        {user.email && !user.is_verified && (
+          <Button
+            size="sm"
+            className="mt-2"
+            disabled={loading}
+            variant="outline-warning"
+            onClick={send_verify}
+          >
+            Verify your Email
+          </Button>
+        )}
+      </div>
+
+      {/* Fields */}
+      <div className="form-floating mb-3">
+        {loading ? (
+          <Placeholder size="lg" as={Card.Text} animation="glow">
+            <label>Name</label>
+            <br />
+            <Placeholder xs={8} />
+          </Placeholder>
+        ) : (
+          <>
+            <input
+              type="text"
+              className="form-control"
+              id="profileName"
+              disabled={true}
+              value={name || ""}
+              name="name"
+              placeholder="Name"
+            />
+            <label htmlFor="profileName">Name</label>
+          </>
+        )}
+      </div>
+
+      <div className="form-floating mb-3">
+        {loading ? (
+          <Placeholder size="lg" as={Card.Text} animation="glow">
+            <label>Email address</label>
+            <br />
+            <Placeholder xs={8} />
+          </Placeholder>
+        ) : (
+          <>
+            <input
+              type="email"
+              className="form-control"
+              id="profileEmail"
+              disabled={true}
+              value={email || ""}
+              name="email"
+              placeholder="Email"
+              title="Cannot be modified"
+            />
+            <label htmlFor="profileEmail">Email address</label>
+          </>
+        )}
+      </div>
+
+      {/* Error state */}
+      {authError ? (
+        <>
+          <Alert className="mt-2" variant="danger">
+            {translateErrors(authError)}
+          </Alert>
+          <Button className="w-100 mb-2" onClick={get_profile} variant="primary">
+            Try Again
+          </Button>
+        </>
+      ) : (
+        <Button className="w-100 mb-2" disabled variant="primary">
+          Save Profile
+        </Button>
+      )}
+
+      <Link to={CHANGE_PASS_URL}>
+        <Button variant="link" className="d-block w-100 text-center mt-1" size="sm">
+          Change Password
+        </Button>
+      </Link>
+
+      {/* Only show success alert when the user explicitly triggered send_verify */}
+      {verifyClicked && authMessage ? (
+        <Alert
+          className="mt-3"
+          variant="success"
+          onClose={() => { clear_auth_error(); setVerifyClicked(false); }}
+          dismissible
+        >
+          {authMessage}
+        </Alert>
+      ) : null}
     </>
   );
 }

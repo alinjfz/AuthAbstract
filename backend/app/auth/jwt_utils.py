@@ -1,3 +1,4 @@
+import uuid
 import jwt
 from datetime import datetime, timedelta, timezone
 from functools import wraps
@@ -44,7 +45,7 @@ def jwt_required(f):
 
         try:
             payload = decode_token(token)
-            current_user = User.query.get(payload['sub'])
+            current_user = User.query.get(uuid.UUID(payload['sub']))
             if not current_user or not current_user.is_active:
                 return jsonify({'error': 'User not found or inactive.'}), 401
         except jwt.ExpiredSignatureError:

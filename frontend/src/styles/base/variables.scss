@@ -1,3 +1,14 @@
+// ── Design Tokens ─────────────────────────────────────────────────────────────
+$auth-form-max-width: 480px;
+$transition-fast:   0.15s ease;
+$transition-base:   0.2s ease;
+$transition-smooth: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+$radius-input: 6px;
+$radius-card:  12px;
+$shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+$shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+
+// ── Legacy colour stubs (commented for reference) ─────────────────────────────
 // $primary-color: #8b0000;
 // $secondary-color: #6c757d;
 // $success-color: #198754;
@@ -6,27 +17,3 @@
 // $info-color: #0dcaf0;
 // $light-color: #f8f9fa;
 // $dark-color: #212529;
-
-// $theme-colors: (
-//   "primary": $primary-color,
-//   "secondary": $secondary-color,
-//   "success": $success-color,
-//   "info": $info-color,
-//   "warning": $warning-color,
-//   "danger": $danger-color,
-//   "light": $light-color,
-//   "dark": $dark-color,
-// );
-
-// $theme-colors: (
-//   $primary: $blue,
-//   $secondary: $gray-500,
-//   $success: $green,
-//   $info: $cyan,
-//   $warning: $yellow,
-//   $danger: $red,
-//   $light: $gray-100,
-//   $dark: $gray-800,
-// );
-
-// $--bs-gradient: none;
