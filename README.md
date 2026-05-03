@@ -1,6 +1,6 @@
 # AuthAbstract
 
-**A production-ready authentication starter kit. Clone it, configure it, and build your app on top — auth is already done.**
+**A production-ready authentication starter kit. Clone it, configure it, and build your app on top. Auth is already done.**
 
 AuthAbstract gives you a complete, secure authentication system out of the box so you never have to implement login, registration, password reset, or email verification from scratch again. Every auth concern is solved: JWT tokens in httpOnly cookies, Alembic migrations, Docker deployment, rate limiting, HTTPS, and a clean React frontend. Your job is to add your features, not re-implement auth for the fifth time.
 
