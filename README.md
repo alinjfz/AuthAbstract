@@ -193,7 +193,7 @@ When `MAIL_ENABLED=False` (the default), email tokens are returned directly in t
 }
 ```
 
-Copy the token, paste it into the verification endpoint — the full flow works end-to-end.
+Copy the token, paste it into the verification endpoint. The full flow works end-to-end.
 
 ---
 
