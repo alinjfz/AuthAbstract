@@ -146,7 +146,7 @@ REACT_APP_API_URL=http://localhost:5000 npm start
 
 ## Environment Variables
 
-Copy `.env.example` to `.env` and fill in the values. All configuration is environment-driven — no hardcoded secrets.
+Copy `.env.example` to `.env` and fill in the values. All configuration is environment-driven so no hardcoded secrets.
 
 ### Required
 
