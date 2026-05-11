@@ -54,10 +54,14 @@ def api_register():
     else:
         user.is_verified = True
         db.session.commit()
-        return jsonify({
+        token = create_access_token(user.id)
+        resp = jsonify({
             'message': 'Registered successfully.',
-            'user': {'email': user.email, 'name': user.name, 'is_verified': user.is_verified}
-        }), 201
+            'user': {'email': user.email, 'name': user.name, 'is_verified': user.is_verified},
+            'config': {'email_verify_enabled': current_app.config['EMAIL_VERIFY_ENABLED']}
+        })
+        _set_auth_cookie(resp, token)
+        return resp, 201
 
 
 # ── Login ─────────────────────────────────────────────────────────────────────

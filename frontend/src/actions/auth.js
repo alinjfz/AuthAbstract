@@ -60,3 +60,9 @@ export const auth_send_verification = (x) => ({
   type: authtypes.AUTH_SEND_VERIFICATION,
   x,
 });
+export const auth_show_welcome_modal = () => ({
+  type: authtypes.AUTH_SHOW_WELCOME_MODAL,
+});
+export const auth_clear_welcome_modal = () => ({
+  type: authtypes.AUTH_CLEAR_WELCOME_MODAL,
+});

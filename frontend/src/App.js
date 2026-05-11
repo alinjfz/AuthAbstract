@@ -14,6 +14,7 @@ import ChangePassPage       from "./pages/ChangePassPage";
 import ResetPassPage        from "./pages/ResetPassPage";
 import ConfirmResetPassPage from "./pages/ConfirmResetPassPage";
 import VerifyEmailPage      from "./pages/VerifyEmailPage";
+import WelcomeModal         from "./components/WelcomeModal";
 
 function AnimatedRoutes({ loggedin }) {
   const location = useLocation();
@@ -49,6 +50,7 @@ function App({ loggedin }) {
       <Container fluid className="app-container my-5">
         <AnimatedRoutes loggedin={loggedin} />
       </Container>
+      <WelcomeModal />
     </Router>
   );
 }

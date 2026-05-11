@@ -14,6 +14,8 @@ import {
   AUTH_GET_PROFILE,
   AUTH_REGISTER_USER,
   AUTH_VERIFY_EMAIL,
+  AUTH_SHOW_WELCOME_MODAL,
+  AUTH_CLEAR_WELCOME_MODAL,
 } from "../constants/Auth";
 
 const initialState = {
@@ -29,6 +31,7 @@ const initialState = {
   loading: false,
   error: '',
   message: '',
+  show_welcome_modal: false,
 };
 
 export default function auth(state = initialState, action) {
@@ -72,6 +75,10 @@ export default function auth(state = initialState, action) {
       return { ...state, ...action.x, loading: false };
     case AUTH_GET_PROFILE:
       return { ...state, ...action.x, loading: false };
+    case AUTH_SHOW_WELCOME_MODAL:
+      return { ...state, show_welcome_modal: true };
+    case AUTH_CLEAR_WELCOME_MODAL:
+      return { ...state, show_welcome_modal: false };
     case AUTH_CLEAR_ERROR:
       return { ...state, error: '', message: '', loading: false };
     default:

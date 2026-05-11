@@ -56,7 +56,14 @@ export const api_register = (x) => async (dispatch) => {
   const { status, data } = await request(AUTH_REGISTER_API, {
     ...baseOptions, method: "POST", body: JSON.stringify(x),
   }, dispatch);
-  if (status === 201) dispatch(authActions.auth_register_user(data));
+  if (status === 201) {
+    if (data && data.user) {
+      dispatch(authActions.auth_login_user(data));
+      dispatch(authActions.auth_show_welcome_modal());
+    } else {
+      dispatch(authActions.auth_register_user(data));
+    }
+  }
 };
 
 export const api_get_profile = () => async (dispatch) => {

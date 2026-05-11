@@ -12,6 +12,19 @@ def test_register_success(client):
     assert data['user']['email'] == 'new@example.com'
 
 
+def test_register_autologin_sets_cookie_and_config(client):
+    """EMAIL_VERIFY_ENABLED=False: register must set auth cookie and return config."""
+    res = client.post('/api/auth/register', json={
+        'email': 'autologin@example.com', 'name': 'Auto', 'password': 'Pass123!'
+    })
+    assert res.status_code == 201
+    data = res.get_json()
+    assert 'user' in data
+    assert 'config' in data
+    assert data['config']['email_verify_enabled'] is False
+    assert 'auth_token' in res.headers.get('Set-Cookie', '')
+
+
 def test_register_duplicate_email(client):
     payload = {'email': 'dup@example.com', 'name': 'Ali', 'password': 'Pass123!'}
     client.post('/api/auth/register', json=payload)

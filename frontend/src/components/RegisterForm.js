@@ -4,12 +4,12 @@ import * as AuthApi from "../api/auth";
 import { bindActionCreators } from "redux";
 import * as AuthActions from "../actions/auth";
 import { connect } from "react-redux";
-import { LOGIN_URL, RESET_PASS_URL } from "../constants/routes";
+import { DASHBOARD_URL, LOGIN_URL, RESET_PASS_URL } from "../constants/routes";
 import { Link, useNavigate } from "react-router-dom";
 import isPasswordStrong from "../utils/isPasswordStrong";
 import translateErrors from "../utils/translateErrors";
 
-function RegisterForm({ authloading: loading, onRegister, authActions, authError, authMessage }) {
+function RegisterForm({ authloading: loading, onRegister, authActions, authError, authMessage, showWelcomeModal }) {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -39,6 +39,11 @@ function RegisterForm({ authloading: loading, onRegister, authActions, authError
     }
     // eslint-disable-next-line
   }, [authMessage]);
+
+  useEffect(() => {
+    if (showWelcomeModal) navigate(DASHBOARD_URL);
+    // eslint-disable-next-line
+  }, [showWelcomeModal]);
 
   const validateField = (field, value, data) => {
     const d = data || formData;
@@ -300,6 +305,7 @@ const mapStateToProps = (state) => ({
   loggedin: state.auth.loggedin,
   authloading: state.auth.loading,
   authError: state.auth.error,
+  showWelcomeModal: state.auth.show_welcome_modal,
 });
 
 const mapDispatchToProps = (dispatch) => ({
