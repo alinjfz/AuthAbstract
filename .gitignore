@@ -30,5 +30,4 @@ Thumbs.db
 nginx/ssl/
 
 # Internal planning docs
-authabstract-plan.md
-BUILD_SUMMARY.md
+plans/
