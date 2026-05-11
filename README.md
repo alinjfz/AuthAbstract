@@ -1,6 +1,6 @@
 # AuthAbstract
 
-**A production-ready authentication starter kit. Clone it, configure it, and build your app on top — auth is already done.**
+**A production-ready authentication starter kit. Clone it, configure it, and build your app on top. Auth is already done.**
 
 AuthAbstract gives you a complete, secure authentication system out of the box so you never have to implement login, registration, password reset, or email verification from scratch again. Every auth concern is solved: JWT tokens in httpOnly cookies, Alembic migrations, Docker deployment, rate limiting, HTTPS, and a clean React frontend. Your job is to add your features, not re-implement auth for the fifth time.
 
@@ -146,7 +146,7 @@ REACT_APP_API_URL=http://localhost:5000 npm start
 
 ## Environment Variables
 
-Copy `.env.example` to `.env` and fill in the values. All configuration is environment-driven — no hardcoded secrets.
+Copy `.env.example` to `.env` and fill in the values. All configuration is environment-driven so no hardcoded secrets.
 
 ### Required
 
@@ -193,7 +193,7 @@ When `MAIL_ENABLED=False` (the default), email tokens are returned directly in t
 }
 ```
 
-Copy the token, paste it into the verification endpoint — the full flow works end-to-end.
+Copy the token, paste it into the verification endpoint. The full flow works end-to-end.
 
 ---
 
